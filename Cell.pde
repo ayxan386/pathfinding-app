@@ -45,10 +45,10 @@ class Cell {
   Cell clone() {
     return new Cell(this.x, this.y, this.state);
   }
-  public int hashCode(){
+  public int hashCode() {
     return this.x * 31 + this.y;
   }
-  public String toString(){
-    return String.format("(%d,%d), %d",this.x,this.y,this.state);
+  public String toString() {
+    return String.format("(%d,%d), %d", this.x, this.y, this.state);
   }
 }

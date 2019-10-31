@@ -16,8 +16,8 @@ class Grid {
 
     cleanGrid(w, h);
 
-    start = new Cell(w / 5, h / 2);
-    target = new Cell(4 * w / 5, h * 3/ 7);
+    start = new Cell(0, 0);
+    target = new Cell(w - 2, h - 2);
   }
 
   void drawGrid() {
@@ -36,13 +36,13 @@ class Grid {
       else if (c.state == 1)fill(255, 0, 0); // in progress
       else if (c.state == 2)fill(0, 255, 0); // completed
       else if (c.state == 3)fill(0, 0, 255); // part of path
-      
-      if (isStart(c)){
+
+      if (isStart(c)) {
         fill(255, 255, 0);
-        if(selectinStart)fill(255, 0, 0);
-      } else if (isTarget(c)){
+        if (selectinStart)fill(255, 0, 0);
+      } else if (isTarget(c)) {
         fill(0, 255, 255);
-        if(selectinTarget)fill(255, 0, 0);
+        if (selectinTarget)fill(255, 0, 0);
       }
 
       rect(screenX, screenY, a, a);
@@ -51,6 +51,7 @@ class Grid {
   }
 
   void updateCell(int x, int y, boolean clear) {
+    if (x > width - 100)return;
     int gridX = x / a;
     int gridY = y / a;
 
@@ -101,12 +102,13 @@ class Grid {
     if (isStart(getCellAt(x, y)))return;
     target = new Cell(x, y);
   }
+
   void setStart(int x, int y) {
     if (isTarget(getCellAt(x, y)))return;
     start = new Cell(x, y);
   }
   Cell getCellAt(int x, int y) {
-    if (y * w + x < grid.size()) {
+    if (y * w + x < grid.size() && y * w + x >= 0) {
       return grid.get(y * w + x);
     }
     return null;
@@ -119,14 +121,15 @@ class Grid {
       ArrayList<Cell> row = new ArrayList();
       for (int x = 0; x < w; x++) {
         Cell c = grid.get(y * w + x).clone();
-        c.setState(0);
+        if (c.state != -1)
+          c.setState(0);
         row.add(c);
       }
       res.add(row);
     }
     return res;
   }
-  void release(){
+  void release() {
     selectinStart = false;
     selectinTarget = false;
     //drawGrid();
@@ -145,6 +148,12 @@ class Grid {
       for (int x = 0; x < w; x++) {
         grid.add(new Cell(x, y));
       }
+    }
+  }
+  void setZero() {
+    for (Cell c : grid) {
+      if (c.state == -1)continue;
+      c.setState(0);
     }
   }
 }

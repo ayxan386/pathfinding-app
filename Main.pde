@@ -3,17 +3,17 @@ GameController gc;
 
 void setup() {
   //
-  size(800, 800);
+  size(1200, 800);
   //
   gc = new GameController();
-  gc.makeNewGrid(30);
+  gc.makeNewGrid(75);
   gc.drawGrid();
-  frameRate(30);
+  //frameRate(30);
 }
 
 void draw() {
   gc.tick();
-  saveFrame("frames/###.png");
+  //saveFrame("frames/###.png");
 }
 
 
@@ -30,6 +30,6 @@ void mouseClicked() {
   gc.clicked(mouseX, mouseY, toPass);
   gc.drawGrid();
 }
-void mouseReleased(){
+void mouseReleased() {
   gc.release();
 }
